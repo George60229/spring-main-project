@@ -68,7 +68,12 @@ public class CertificateConverter {
 
     public GiftCertificate updateByField(CertificateEditRequestDto certificateEditRequestDto, GiftCertificate giftCertificate) {
         String value = certificateEditRequestDto.getValue();
-        
+        switch (certificateEditRequestDto.getParameter()) {
+            case NAME -> giftCertificate.setName(value);
+            case DESCRIPTION -> giftCertificate.setDescription(value);
+            case PRICE -> giftCertificate.setPrice(BigDecimal.valueOf(Integer.parseInt(value)));
+            case DURATION -> giftCertificate.setDuration(Integer.parseInt(value));
+       }
         return giftCertificate;
     }
 
