@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                 .permitAll()
                 .requestMatchers("/auth/**")
                 .permitAll()
+                .requestMatchers("/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
