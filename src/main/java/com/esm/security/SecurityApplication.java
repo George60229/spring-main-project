@@ -11,4 +11,6 @@ public class SecurityApplication extends SpringBootServletInitializer {
 		SpringApplication.run(SecurityApplication.class, args);
 	}
 
+
+
 }
