@@ -30,16 +30,16 @@ public class GiftCertificate {
     @JoinTable(name = "certificates_tags",
             joinColumns = {@JoinColumn(name = "certificate_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")})
-    private List<Tag> tags=new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
 
 
-@JsonIgnore
-@LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "certificates_orders",
             joinColumns = {@JoinColumn(name = "certificate_id")},
             inverseJoinColumns = {@JoinColumn(name = "order_id")})
-    private List<Order> orders=new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
 
     public Integer getCertificateId() {
@@ -60,7 +60,7 @@ public class GiftCertificate {
 
 
     public String getName() {
-        if(this.name==null){
+        if (this.name == null) {
             return "";
         }
         return name;
@@ -121,9 +121,10 @@ public class GiftCertificate {
     public void setTag(Tag tag) {
         this.tags.add(tag);
     }
+
     @JsonIgnore
     public List<String> getTagNames() {
-       return tags.stream()
+        return tags.stream()
                 .map(Tag::getName)
                 .collect(Collectors.toList());
 
