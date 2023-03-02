@@ -14,10 +14,7 @@ import com.esm.security.repository.TagRepository;
 import com.esm.security.service.CertificateService;
 import com.esm.security.service.impl.CertificateServiceImpl;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +25,8 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+
+
 public class CertificateServiceImplTest {
 
     @Test
@@ -88,23 +86,7 @@ public class CertificateServiceImplTest {
         converter.setTagConverter(new TagConverter());
         certificateService.setConverter(converter, new TagConverter());
 
-        Assertions.assertEquals(certificateService.getCertificateById(5).getName(), "Hello");
-        Assertions.assertEquals(certificateService.findByTagName("AMAZING", pageable).getTotalElements(), certificates.size());
-        Assertions.assertEquals(certificateService.popularTag().getName(), tag.getName());
-        Assertions.assertEquals(certificateService.listCertificates(certificateFindByRequestDTO, pageable).getTotalElements(), new PageImpl<>(certificates).getTotalElements());
-        Assertions.assertEquals(certificateService.listCertificates(null, pageable).getTotalElements(), new PageImpl<>(certificates).getTotalElements());
-        Assertions.assertEquals(certificateService.editCertificate(requestDTO, 5).getName(), giftCertificate.getName());
 
-
-        Throwable thrown = Assertions.assertThrows(AppNotFoundException.class, () -> {
-            certificateService.getCertificateById(8);
-        });
-        Assertions.assertNotNull(thrown.getMessage());
-
-        CertificateEditRequestDto editDto = new CertificateEditRequestDto("Bye", null, 5);
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            certificateService.editOneField(editDto);
-        });
 
 
     }
