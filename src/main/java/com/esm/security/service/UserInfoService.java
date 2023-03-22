@@ -26,7 +26,12 @@ public interface UserInfoService extends UserDetailsService {
     UserInfoResponseDto getUserById(int id);
 
     Page<UserInfoResponseDto> getUserInfo(Pageable pageable);
+
     UserResponseDto getUserWithMostExpensiveOrder();
+
+
+    void deleteUser(int id);
+
 
 }
 

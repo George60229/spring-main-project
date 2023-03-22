@@ -1,7 +1,5 @@
 package com.esm.security.service.impl;
 
-
-
 import com.esm.security.converter.CertificateConverter;
 import com.esm.security.converter.TagConverter;
 import com.esm.security.dto.request.CertificateEditRequestDto;
@@ -20,26 +18,22 @@ import com.esm.security.service.CertificateService;
 import com.esm.security.utils.FindParameter;
 import com.esm.security.utils.SortParameter;
 import com.esm.security.utils.SortWay;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
-
-    private final CertificateRepository certificateRepository;
-
-    private final TagRepository tagRepository;
-
-    public CertificateServiceImpl(CertificateRepository certificateRepository, TagRepository tagRepository) {
-        this.certificateRepository = certificateRepository;
-        this.tagRepository = tagRepository;
-    }
+    @Autowired
+    private  CertificateRepository certificateRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
     @Autowired
     private CertificateConverter converter;
@@ -50,7 +44,8 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     public void deleteCertificateById(Integer id) {
-        certificateRepository.deleteById(id);
+
+        certificateRepository.deleteByCertificateId(id);
     }
 
 
@@ -75,11 +70,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
 
-    @Override
-    public void setConverter(CertificateConverter converter, TagConverter tagConverter) {
-        this.converter = converter;
-        this.tagConverter = tagConverter;
-    }
+
 
     @Override
     public Page<ResponseCertificateDTO> listCertificates(CertificateFindByRequestDTO certificateFindByRequestDTO,
@@ -122,7 +113,21 @@ public class CertificateServiceImpl implements CertificateService {
         }
 
         if (res.size() > pageable.getPageSize()) {
-            res = res.subList(pageable.getPageNumber() * pageable.getPageSize(), (pageable.getPageNumber() + 1) * pageable.getPageSize());
+
+            try {
+                res = res.subList(pageable.getPageNumber() * pageable.getPageSize(), (pageable.getPageNumber() + 1) * pageable.getPageSize());
+            } catch (IndexOutOfBoundsException e){
+                List<GiftCertificate> newResult=new ArrayList<>();
+                for (int i = 0; i < res.size()%10 ; i++) {
+                    newResult.add(res.get(pageable.getPageNumber() * pageable.getPageSize()+i));
+                }
+                res=newResult;
+            }
+
+
+
+
+
         }
 
         return converter.convertListToDTO(res);
@@ -183,6 +188,11 @@ public class CertificateServiceImpl implements CertificateService {
         List<Tag> tags = certificateRepository.countByTagsName();
         List<Tag> res = tags.stream().sorted(Comparator.comparingInt(Tag::getGiftCertificatesSize).reversed()).toList();
         return tagConverter.convertOneToDTO(res.get(0));
+    }
+
+    @Override
+    public int amount() {
+        return (int) certificateRepository.countByCertificateIdGreaterThanEqual(0);
     }
 
     private void create(CertificateRequestDTO certificateEditDto) {

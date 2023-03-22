@@ -18,7 +18,7 @@ import java.util.List;
 
 public interface CertificateService {
 
-    public void setConverter(CertificateConverter converter, TagConverter tagConverter);
+
 
 
     /**
@@ -75,6 +75,8 @@ public interface CertificateService {
     Page<ResponseCertificateDTO> findByTagsNameList(List<String> tagNames,Pageable pageable);
 
     TagResponseDTO popularTag();
+
+    int amount();
 }
 
 

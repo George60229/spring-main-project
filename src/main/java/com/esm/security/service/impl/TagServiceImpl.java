@@ -22,11 +22,10 @@ import java.util.Optional;
 public class TagServiceImpl implements TagService {
 
 
-    private final TagRepository tagRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
-    public TagServiceImpl(TagRepository tagRepository) {
-        this.tagRepository = tagRepository;
-    }
+
 
     @Autowired
     TagConverter converter;

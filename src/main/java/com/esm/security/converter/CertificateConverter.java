@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Component
 public class CertificateConverter {
     @Autowired
-
     TagConverter tagConverter;
 
     public void setTagConverter(TagConverter tagConverter){

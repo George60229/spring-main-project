@@ -26,7 +26,6 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 
-
 public class CertificateServiceImplTest {
 
     @Test
@@ -81,11 +80,9 @@ public class CertificateServiceImplTest {
         //when(tagMock.findAll()).thenReturn(tags);
 
 
-        CertificateService certificateService = new CertificateServiceImpl(mock, tagMock);
+
         CertificateConverter converter = new CertificateConverter();
         converter.setTagConverter(new TagConverter());
-        certificateService.setConverter(converter, new TagConverter());
-
 
 
 

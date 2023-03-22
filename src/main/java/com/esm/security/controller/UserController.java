@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,17 +24,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
 
-    private final UserServiceImpl userService;
+    @Autowired
+    private UserServiceImpl userService;
 
     @Autowired
     UserUrlCreator userUrlCreator;
 
-    public UserController(UserServiceImpl userService) {
-        this.userService = userService;
-    }
+
 
 
     @GetMapping("/getAllUsers/{page}")
@@ -151,5 +152,10 @@ public class UserController {
 
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUserById(@PathVariable(value = "id") Integer id) {
+        userService.deleteUser(id);
+    }
 
 }

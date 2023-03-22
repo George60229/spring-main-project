@@ -25,8 +25,7 @@ public class UserConverter {
     PasswordEncoder passwordEncoder;
 
 
-    @Autowired
-    private UserRepository userRepository;
+
 
     public Page<UserResponseDto> convert(Page<User> users) {
         return listToPage(users.stream()

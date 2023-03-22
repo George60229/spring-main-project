@@ -24,21 +24,16 @@ import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserInfoService {
-    private final UserRepository userRepository;
-
-    private final CertificateRepository certificateRepository;
+    @Autowired
+    private  UserRepository userRepository;
+    @Autowired
+    private  CertificateRepository certificateRepository;
 
 
     @Autowired
     private UserConverter converter;
 
 
-    public UserServiceImpl(UserRepository userRepository, CertificateRepository certificateRepository) {
-        this.userRepository = userRepository;
-        this.certificateRepository = certificateRepository;
-
-
-    }
 
 
     @Override
@@ -137,7 +132,12 @@ public class UserServiceImpl implements UserInfoService {
         return converter.convertOneToDTO(res.get(0));
 
     }
+    @Override
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
 
+
+    }
     @Override
     public UserDetails loadUserByUsername(String login) {
         User user = userRepository.findByLogin(login);
